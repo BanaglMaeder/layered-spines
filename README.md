@@ -4,8 +4,7 @@
 ## Example
 
 ```
-from IH import IC
-from Spines import Spine
+from ihspines import IC
 
 # Triangulation for Pinched Torus
 PT2 = [[[1],[2],[3],[4],[5],[6],[7]],[[1,2],[1,3],[1,4],[1,5],[1,6],[1,7],
