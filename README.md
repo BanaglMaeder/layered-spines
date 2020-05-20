@@ -1,7 +1,7 @@
 # layered-spines
+Short description of the program
 
-
-## Example
+## Examples
 
 ```
 from ihspines import IC
