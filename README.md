@@ -1,5 +1,12 @@
 # layered-spines
-Short description of the program
+The software provides functions that execute simplicial collapses, akin to
+J. H. C. Whitehead's collapses in classical simple homotopy theory, that preserve
+the intersection homology of a stratified simplicial complex. Included are in particular algorithms
+that compute stratified spines of such complexes and functions that compute
+simplicial intersection homology with coefficients in Z/2Z. Stratified simplicial collapses
+and expansions that preserve intersection homology were introduced by
+Banagl, Mäder and Sadlo in their paper 'Stratified Formal Deformations and Intersection
+Homology of Data Point Clouds'.
 
 ## Examples
 
