@@ -4,7 +4,6 @@ import copy
 # Floor functions is used for certain perversity functions
 from math import floor
 
-from numpy.linalg import matrix_rank
 from numpy.linalg import norm
 
 # Delaunay triangulation used to generate Delaunay-Vietoris-Rips complexes
@@ -300,8 +299,11 @@ def IC(C,strata,p):
         if shapeA[0] == 0 or shapeA[1] == 0:
             R = 0
         else:
-            A_snf = SNF(A)
-            R = matrix_rank(A_snf)
+            A_snf = SNF(A) 
+            R = 0
+            for i in range(0,min(shapeA[0],shapeA[1])):
+                if A_snf[i,i] == 1:
+                    R = R+1
         ranks.append(R)
         
     ranks.append(0)
@@ -367,7 +369,7 @@ def DelaunayComplex(xyz,r):
     
     delaunay = Delaunay(xyz).simplices
     
-    # First we construct the full Delaunay Complex and then select simplices
+    # First we construct Delaunay triangulation and then select  simplices
     # whose vertices lie pairwise closer than distance r to each other.
     if dim==2:
         DelE = []
@@ -658,8 +660,10 @@ def Spine(Cplx, S0 , C0):
     # remaining simplices because simplices can become free after a collapse.
     while not stop:
         count = 0
-        for i in range(min(n-1,ComplexDimension(S)-1),-1,-1):
-            for s in S[i]:
+        for i in range(min(ComplexDimension(K)-1,ComplexDimension(S)-1),-1,-1):
+            # Creating a copy of S to iterate over
+            Scopy = copy.deepcopy(S)
+            for s in Scopy[i]:
             # We search the i-th skeleton for free faces                
                 princ_s = Princ(K,s)                
                 # s is free if there is exactly one princ coface and none other
@@ -680,8 +684,9 @@ def Spine(Cplx, S0 , C0):
     stop = False
     while not stop:
         count = 0
-        for i in range(min(n-1,ComplexDimension(C)-1),-1,-1):
-            for c in C[i]:
+        for i in range(min(ComplexDimension(K)-1,ComplexDimension(C)-1),-1,-1):
+            Ccopy = copy.deepcopy(C)
+            for c in Ccopy[i]:
                 princ_c = Princ(K,c)
                 if len(princ_c) == 1:
                     if princ_c[0] in C[i+1]:
@@ -697,8 +702,9 @@ def Spine(Cplx, S0 , C0):
     stop = False
     while not stop:
         count = 0
-        for j in range(min(n-1,ComplexDimension(IM)-1),-1,-1):
-            for i in IM[j]:
+        for j in range(min(ComplexDimension(K)-1,ComplexDimension(IM)-1),-1,-1):
+            IMcopy = copy.deepcopy(IM)
+            for i in IMcopy[j]:
                 princ_i = Princ(K,i)
                 if len(princ_i) == 1:
                     # Note: we have to check an extra condition for
@@ -716,8 +722,9 @@ def Spine(Cplx, S0 , C0):
     stop = False
     while not stop:
         count = 0
-        for i in range(min(n-1,ComplexDimension(C)-1),-1,-1):
-            for c in C[i]:
+        for i in range(min(ComplexDimension(K)-1,ComplexDimension(C)-1),-1,-1):
+            Ccopy = copy.deepcopy(C)
+            for c in Ccopy[i]:
                 princ_c = Princ(K,c)
                 if len(princ_c) == 1:
                     if princ_c[0] in C[i+1]:
